@@ -1,19 +1,81 @@
 <template>
-  <div class="content mf m">
+  <div class="content mf m sc">
     <!-- <router-link to="/">page</router-link> -->
+    <mouse></mouse>
+    <header class="header">
+      <router-link class="m sc hover" to="/">главная</router-link>
+      <router-link class="m sc hover" to="/about">производство</router-link>
+      <router-link class="m sc hover" to="/contacts">контаты</router-link>
+    </header>
     <main class="main">
       <router-view/>
     </main>
   </div>
 </template>
+<script>
+import mouse from './components/mouse.vue'
+export default {
+  components: {mouse},
+  data(){
+    return {
+      theme: false
+    }
+  },
+  computed:{
+    changeTheme(){
+      return this.$store.getters.getTheme
+    }
+  },
+  watch:{
+    changeTheme(newCount, oldCount){
+      this.theme = newCount
+      if(!this.theme){
+        document.querySelector('.content').classList.remove('active')
+      }else{
+        document.querySelector('.content').classList.add('active')
+      }
+    }
+  },
+}
+</script>
 
 <style lang="scss">
+.header{
+  display: flex;
+  align-items: center;
+  height: 70px;
+  z-index: 1;
+  justify-content: center;
+  position: fixed;
+  width: 100vw;
+  top: 0px;
+  a{
+    padding: 20px;
+    transition: 0.3s;
+  }
+}
+.content{
+  &.active{
+    .sc{
+      color: var(--main-color);
+    }
+    .mc{
+      color: var(--hover-color);
+    }
+    .sb{
+      color: var(--main-color);
+    }
+    .mb{
+      color: var(--hover-color);
+    }
+  }
+}
 :root {
   --main-color: #000000;
-  --hover-color: #000000;
+  --hover-color: #ffffff;
   --error-color: #000000;
   --good-color: #000000;
-  --bg-color: #f9f9f9;
+  --bg-color: #010101;
   --black-color: #000000;
   --white-color: #ffffff;
 }
